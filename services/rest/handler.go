@@ -129,9 +129,11 @@ func (h *Handler) RESTAPIHandler(rw http.ResponseWriter, r *http.Request) {
 	events := make([]collection.Event, len(req.GetEvents()))
 
 	for i, event := range req.GetEvents() {
+		eventBytes := make([]byte, len(event.GetEventBytes()))
+		copy(eventBytes, event.GetEventBytes())
 		events[i] = collection.Event{
 			Type:       event.Type,
-			EventBytes: event.GetEventBytes(),
+			EventBytes: eventBytes,
 		}
 	}
 	h.collector.Collect(r.Context(), &collection.CollectRequest{
