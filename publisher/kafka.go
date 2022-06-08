@@ -7,11 +7,12 @@ import (
 
 	"gopkg.in/confluentinc/confluent-kafka-go.v1/kafka"
 	// Importing librd to make it work on vendor mode
-	_ "gopkg.in/confluentinc/confluent-kafka-go.v1/kafka/librdkafka"
 	"raccoon/config"
 	"raccoon/logger"
 	"raccoon/metrics"
 	"strings"
+
+	_ "gopkg.in/confluentinc/confluent-kafka-go.v1/kafka/librdkafka"
 )
 
 // KafkaProducer Produce data to kafka synchronously
@@ -71,16 +72,6 @@ func (pr *Kafka) ProduceBulk(events []*pb.Event, deliveryChannel chan kafka.Even
 		}
 		totalProcessed++
 	}
-	// Wait for deliveryChannel as many as processed
-	for i := 0; i < totalProcessed; i++ {
-		d := <-deliveryChannel
-		m := d.(*kafka.Message)
-		if m.TopicPartition.Error != nil {
-			order := m.Opaque.(int)
-			errors[order] = m.TopicPartition.Error
-		}
-	}
-
 	if allNil(errors) {
 		return nil
 	}

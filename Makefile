@@ -26,7 +26,7 @@ PROTO_PACKAGE=/websocket/proto
 generate-proto:
 	rm -rf .temp
 	mkdir -p .temp
-	curl -o .temp/proton.tar.gz -L http://api.github.com/repos/odpf/proton/tarball/main; tar xvf .temp/proton.tar.gz -C .temp/ --strip-components 1
+	curl -o .temp/proton.tar.gz -L http://api.github.com/repos/odpf/proton/tarball/877cc0d89ce9887233cf8f17197c549766b4ef1d; tar xvf .temp/proton.tar.gz -C .temp/ --strip-components 1
 	protoc --proto_path=.temp/ .temp/odpf/raccoon/*.proto --go_out=./ --go_opt=paths=import --go_opt=Modpf/raccoon/Event.proto=$(PROTO_PACKAGE) --go_opt=Modpf/raccoon/EventRequest.proto=$(PROTO_PACKAGE) --go_opt=Modpf/raccoon/EventResponse.proto=$(PROTO_PACKAGE)
 
 # Build Lifecycle
