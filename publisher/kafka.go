@@ -77,17 +77,17 @@ func (pr *Kafka) ProduceBulk(request collection.CollectRequest, deliveryChannel 
 		totalProcessed++
 	}
 	// Wait for deliveryChannel as many as processed
-	for i := 0; i < totalProcessed; i++ {
-		d := <-deliveryChannel
-		m := d.(*kafka.Message)
-		if m.TopicPartition.Error != nil {
-			eventType := events[i].GetType()
-			metrics.Decrement("kafka_messages_delivered_total", fmt.Sprintf("success=true,conn_group=%s,event_type=%s", request.ConnectionIdentifier.Group, eventType))
-			metrics.Increment("kafka_messages_delivered_total", fmt.Sprintf("success=false,conn_group=%s,event_type=%s", request.ConnectionIdentifier.Group, eventType))
-			order := m.Opaque.(int)
-			errors[order] = m.TopicPartition.Error
-		}
-	}
+	// for i := 0; i < totalProcessed; i++ {
+	// 	d := <-deliveryChannel
+	// 	m := d.(*kafka.Message)
+	// 	if m.TopicPartition.Error != nil {
+	// 		eventType := events[i].GetType()
+	// 		metrics.Decrement("kafka_messages_delivered_total", fmt.Sprintf("success=true,conn_group=%s,event_type=%s", request.ConnectionIdentifier.Group, eventType))
+	// 		metrics.Increment("kafka_messages_delivered_total", fmt.Sprintf("success=false,conn_group=%s,event_type=%s", request.ConnectionIdentifier.Group, eventType))
+	// 		order := m.Opaque.(int)
+	// 		errors[order] = m.TopicPartition.Error
+	// 	}
+	// }
 
 	if allNil(errors) {
 		return nil

@@ -39,6 +39,15 @@ func (w *Pool) StartWorkers() {
 		go func(workerName string) {
 			logger.Info("Running worker: " + workerName)
 			deliveryChan := make(chan kafka.Event, w.deliveryChannelSize)
+			go func() {
+				for d := range deliveryChan {
+					m := d.(*kafka.Message)
+					if m.TopicPartition.Error != nil {
+						logger.Errorf("[worker] Fail to publish message to kafka %v", m.TopicPartition.Error)
+						metrics.Increment("kafka_messages_delivered_total", fmt.Sprintf("success=false,conn_group=%s", ""))
+					}
+				}
+			}()
 			for request := range w.EventsChannel {
 				metrics.Timing("batch_idle_in_channel_milliseconds", (time.Now().Sub(request.TimePushed)).Milliseconds(), "worker="+workerName)
 				batchReadTime := time.Now()
