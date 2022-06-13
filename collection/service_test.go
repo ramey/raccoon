@@ -14,7 +14,7 @@ func TestNewChannelCollector(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want Collector
+		want *ChannelCollector
 	}{
 		{
 			name: "Get Collector",

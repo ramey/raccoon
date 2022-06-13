@@ -9,7 +9,7 @@ type ChannelCollector struct {
 	ch chan CollectRequest
 }
 
-func NewChannelCollector(c chan CollectRequest) Collector {
+func NewChannelCollector(c chan CollectRequest) *ChannelCollector {
 	return &ChannelCollector{
 		ch: c,
 	}

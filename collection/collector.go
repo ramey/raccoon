@@ -1,7 +1,6 @@
 package collection
 
 import (
-	"context"
 	"time"
 
 	"github.com/odpf/raccoon/identification"
@@ -20,6 +19,6 @@ type CollectRequest struct {
 	*pb.SendEventRequest
 }
 
-type Collector interface {
-	Collect(ctx context.Context, req *CollectRequest) error
-}
+// type Collector interface {
+// 	Collect(ctx context.Context, req *CollectRequest) error
+// }

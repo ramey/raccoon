@@ -28,10 +28,10 @@ type serDe struct {
 }
 type Handler struct {
 	serDeMap  map[string]*serDe
-	collector collection.Collector
+	collector *collection.ChannelCollector
 }
 
-func NewHandler(collector collection.Collector) *Handler {
+func NewHandler(collector *collection.ChannelCollector) *Handler {
 	serDeMap := make(map[string]*serDe)
 	serDeMap[ContentJSON] = &serDe{
 		serializer:   serialization.SerializeJSON,

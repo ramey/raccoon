@@ -15,11 +15,11 @@ import (
 )
 
 type Service struct {
-	Collector collection.Collector
+	Collector *collection.ChannelCollector
 	s         *http.Server
 }
 
-func NewRestService(c collection.Collector) *Service {
+func NewRestService(c *collection.ChannelCollector) *Service {
 	pingChannel := make(chan connection.Conn, config.ServerWs.ServerMaxConn)
 	wh := websocket.NewHandler(pingChannel, c)
 	go websocket.Pinger(pingChannel, config.ServerWs.PingerSize, config.ServerWs.PingInterval, config.ServerWs.WriteWaitInterval)

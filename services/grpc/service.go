@@ -12,11 +12,11 @@ import (
 )
 
 type Service struct {
-	Collector collection.Collector
+	Collector *collection.ChannelCollector
 	s         *grpc.Server
 }
 
-func NewGRPCService(c collection.Collector) *Service {
+func NewGRPCService(c *collection.ChannelCollector) *Service {
 	server := grpc.NewServer()
 	pb.RegisterEventServiceServer(server, &Handler{C: c})
 	return &Service{

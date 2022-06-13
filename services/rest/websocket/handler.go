@@ -23,7 +23,7 @@ type serDe struct {
 type Handler struct {
 	upgrader    *connection.Upgrader
 	serdeMap    map[int]*serDe
-	collector   collection.Collector
+	collector   *collection.ChannelCollector
 	PingChannel chan connection.Conn
 }
 
@@ -41,7 +41,7 @@ func getSerDeMap() map[int]*serDe {
 	return serDeMap
 }
 
-func NewHandler(pingC chan connection.Conn, collector collection.Collector) *Handler {
+func NewHandler(pingC chan connection.Conn, collector *collection.ChannelCollector) *Handler {
 	ugConfig := connection.UpgraderConfig{
 		ReadBufferSize:    config.ServerWs.ReadBufferSize,
 		WriteBufferSize:   config.ServerWs.WriteBufferSize,

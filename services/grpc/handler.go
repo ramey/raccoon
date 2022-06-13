@@ -15,7 +15,7 @@ import (
 )
 
 type Handler struct {
-	C collection.Collector
+	C *collection.ChannelCollector
 	pb.UnimplementedEventServiceServer
 }
 
