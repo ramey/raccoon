@@ -39,9 +39,6 @@ func (s *Statsd) Close() {
 }
 
 func withTags(bucket, tags string) string {
-	if bucket == "server_processing_latency_milliseconds" {
-		logger.Info("tags with server_processing_latency_milliseconds: ", tags)
-	}
 	return fmt.Sprintf("%v,%v", bucket, tags)
 }
 
