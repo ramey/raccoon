@@ -186,5 +186,7 @@ func writeFailedResponse(conn connection.Conn, serialize serialization.Serialize
 		},
 	}
 	failure, _ := serialize(response)
+	logger.Errorf("writing response to connection: %v", conn)
 	conn.WriteMessage(messageType, failure)
+	logger.Errorf("response written to connection: %v", conn)
 }
